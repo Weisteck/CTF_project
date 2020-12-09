@@ -20,7 +20,7 @@ In the case of a website that is not secured it is easy to intercept the login a
 HTTPSecure is a protocol to encrypt communication between host and client.
 Default port for HTTPS is `443`
 `301 Moved Permanently` response code is to redirect the client to secure HTTPS.
-[Flow HTTPS](img/HTTPS_Flow.webp)
+[Flow HTTPS](img/HTTPS_Flow.jpeg)
 
 ### Request and Reponse
 
@@ -137,6 +137,9 @@ Cookies -> base64 encoding
 
 ### PUT and DELETE Methods
 
+By defaults, PUT and DELETE methods are disallowed, cause damage or result in unintended access.
+Usually these methods
+
 #### PUT Method
 
 
@@ -149,3 +152,4 @@ Cookies -> base64 encoding
 [HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
 [HTTP Status Codes](https://support.cloudflare.com/hc/en-us/articles/115003014432-HTTP-Status-Codes)
 [Basic Authentification](https://en.wikipedia.org/wiki/Basic_access_authentication)
+[WebDAV](https://en.wikipedia.org/wiki/WebDAV)
