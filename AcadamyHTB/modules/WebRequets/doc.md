@@ -138,11 +138,12 @@ Cookies -> base64 encoding
 ### PUT and DELETE Methods
 
 By defaults, PUT and DELETE methods are disallowed, cause damage or result in unintended access.
-Usually these methods
+Usually these methods are allowed on WebDAV (extension of HTTP)
+Can be found by sending an `OPTIONS` request on server.
+`PUT` to be used to owerwrite any existing file or create a new one.
+`DELETE` to be used to delete an existing file.
 
-#### PUT Method
-
-
+## CURL
 
 
 ## Ressources:

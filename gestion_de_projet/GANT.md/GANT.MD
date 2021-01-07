@@ -2,7 +2,14 @@
 
 ## Sommaire
 
+1. Utilité
+2. Les tâches
+3. Les jalons
+4. Les ressources
+
 ## Utilité
+
+Organisation du projet, vue d'ensemble.
 
 ## Les dates clefs
 
@@ -46,8 +53,11 @@ Questionnaire de satisfaction sur CTF
 
 ## Les jalons
 
-session 3 jalon sur la parti le lancement de projet
-jalon 2 sur la parti Formation aux alentours de début février
-jalon 3 Lancement du CTF avant le 15 avril
+> session 3 jalon sur la parti le lancement de projet.
+>
+> jalon 2 sur la parti Formation aux alentours de début février.
+>
+> jalon 3 Lancement du CTF avant le 15 avril.
 
 ## Ressources
+MS Project
