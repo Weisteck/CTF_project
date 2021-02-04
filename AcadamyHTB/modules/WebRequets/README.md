@@ -145,27 +145,7 @@ Can be found by sending an `OPTIONS` request on server.
 
 ## CURL
 
-### GET
-
-default http requests made by cURL are GET.
-
-`-v` option to request verbose
-
-Basic AUTH Login:
-```
-curl http://admin:password@site.com/ -vvv
-```
-or
-```
-curl -u admin:password  http://site.com/ -vvv
-```
-
-to Follow Redirections :
-```
-curl -u admin:password -L http://inlanefreight.com/
-```
-
-
+Look : `Cheatsheet-35.md`
 
 ## Ressources:
 [Academy HTB](https://academy.hackthebox.eu/)
