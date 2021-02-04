@@ -144,6 +144,8 @@ su nomdelutilisateur
 le mot de passe 
 ```
 
+Upgrade à nouveau le SHELL
+
 ### Trouver le flag user
 
 ```
