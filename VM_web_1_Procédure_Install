@@ -1,0 +1,81 @@
+Creation d'une VM pour le CTF
+
+VM Ubuntu Sever 20.04.2
+
+Coeur : 1
+RAM : 2048 MB
+Virtual Disk : 16 GB
+
+Votre nom : machine_web
+nom de la machine: web_1
+nom d'utilisateur : user
+mot de passe : 123
+
+#screen durant install proposition d'install ssh#
+
+ip : 192.168.1.22
+masque : 255.255.255.0
+Passerelle : 
+
+sudo apt update 
+sudo apt upgrade
+
+ipsudo apt-install net-tools
+
+sudo apt install nginx
+sudo ufw app list // Liste les configurations avec qui ufw travaille
+sudo ufw allow "Nginx HTTP" 
+sudo ufw status // vérifier le changement 
+
+vim /etc/nginx/noinx.conf
+cd /etc/nginx/sites-available
+vim premier_site
+  server (
+          listen 80;
+          listen [::]:80;
+          
+          root /var/www/premier_site/html;
+          index index.html index.htm index.
+
+cd /var/ww
+!!sudo mkdir premier_site
+!!sudo mkdir premier_site/html
+sudo mkdir premier_site.fr
+sudo mkdir premier_site.fr/html
+!!echo 'HELLO WORLD' >> /var/www/premiersite.fr/html/index.php
+vim /etc/nginx/sites-available/premiersite.fr.conf
+            server
+            {
+              server_name example.com;
+  
+              access_log /var/log/nginx/example.com.access.log;
+  
+              error_log /var/log/nginx/example.com.error.log;
+  
+              root /var/www/premiersite.fr/html;
+  
+              index index.php index.html index.htm;
+  
+              # use fastcgi for all php files
+              location ~ \.php$
+              {
+              fastcgi_pass 127.0.0.1:9000;
+              fastcgi_index index.php;
+              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+              include fastcgi_params;
+              }
+  
+              # deny access to apache .htaccess files
+              location ~ /\.ht
+              {
+              deny all;
+              }
+            }
+ln -s /etc/nginx/sites-available/premiersite.fr.conf /etc/nginx/sites-enabled/premiersite.fr.conf
+vim /etc/nginx/sites-available/premiersite/html/index.html
+systemctl restart nginx
+systemctl reload nginx
+
+
+-- VirtualBox--
+network mode : Bridge
