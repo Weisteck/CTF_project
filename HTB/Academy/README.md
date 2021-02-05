@@ -151,6 +151,13 @@ Upgrade à nouveau le SHELL
 ```
 locate user.txt
 ```
+### A la recherhce du flag root
+On part de la connexion avec l'utilisateur cry0l1t3.
+On recherche du côté de SE Linux, un module qui permet d'avoir un tracabilité des commandes.
+Il génère un fichier de log "audit.log"
+Recherche dans les fichiers de logs d'un des deux utilisateurs en fonction de l'uid.
+
+Après un recherche dans les logs on tombe sur une commande SU avec de la data encryptée en HEX. En la décyptant on obtient un mot de passe :
 
 ## Ressources 
 
