@@ -12,7 +12,7 @@
 
 Nmap : 
 ```bash
-nmap -A 10.10.10.215 
+nmap -A -T4 10.10.10.215 
 ```
 Results :
 ```
