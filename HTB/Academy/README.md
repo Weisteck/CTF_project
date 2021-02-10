@@ -25,7 +25,7 @@ nmap -A 10.10.10.215
 nmap -A -T4 10.10.10.215 
 >>>>>>> 07da9a88572c647dc8da76d80619f52a09f42827
 ```
-Results :
+Result :
 ```
 Nmap scan report for 10.10.10.215
 Host is up (0.087s latency).
@@ -64,49 +64,49 @@ HOP RTT      ADDRESS
 
 ### Associer une IP à un nom de domaine
 
-Editer le fichier `/etc/hosts`, dans la partie IPV4 renseigner l'IP, tabuler, et le nom de domaine associer.
+Editer le fichier `/etc/hosts`, dans la partie IPV4 renseigner l'IP, tabuler, et le nom de domaine associé.
 
 ### Dirbuster
 
-Lancer `dirbuster`.
+Lancez `dirbuster`.
 
-Renseigner la liste voulu pour les tests : `/usr/share/dirbuster/wordlist/directory-list-2.3-medium.txt`.
+Renseignez la liste voulue pour les tests : `/usr/share/dirbuster/wordlist/directory-list-2.3-medium.txt`.
 
-On remarque alors un chemin de fichier `admin.php` et sur register on peut se créer un compte à la volé.
+On remarque alors un fichier `admin.php` et sur register on peut se créer un compte à la volée.
 
 ### Burp
 
-Penser à ajouter le plugin `Burp` au navigateur web.
-
+Pensez à ajouter le plugin `Burp` au navigateur web.
+OU
 Faire la redirection de proxy dans les paramètres du navigateur, passer en proxy manuel : avec 127.0.0.1 port 8080.
 
-Dans `Burp` aller dans l'onglet `Proxy`, `Intercept`, le paseer en `on`, bien activer le plugin sur le navigateur et commencer à lancer les requêtes.
+Dans `Burp` aller dans l'onglet `Proxy`, `Intercept`, le passer en `on`, activez le plugin sur le navigateur et commencez à lancer les requêtes.
 
-:warning: ne pas oublier de `Forward` pour valider les requêtes lancer sur le serveur.
+:warning: ne pas oublier de `Forward` pour valider les requêtes lancées sur le serveur.
 
 ## Connexion en userInvite
 
 ### Création de son Login sur academy.htb
 
-Quand on arrive sur la page de connexion et quand on se créer son compte dans la trame `Burt` envoyer sur la dernière ligne on peut apercevoir `roleid=0`.
+Quand on arrive sur la page de connexion et quand on se créé son compte dans la trame `Burt` envoyée sur la dernière ligne on peut apercevoir `roleid=0`.
 
-Changer cette valeure en `1`.
+Changer cette valeur en `1`.
 
 ### Connexion au nouveau compte user
 
-aller sur la page de connexion précédemment repérer :
+aller sur la page de connexion précédemment repérée :
 `/admin.php`
 
-Se connecter avec l'utilisateur créée
+Se connecter avec l'utilisateur créé
 
 ## Exploitation
 
 ### Lien trouvé
 `http://dev-staging-01.academy.htb/`
 
-En aspectant la page sur laquelle on tombe, on peut voir que le serveur utiliser `Laravel` et que la ligne `APP_KEY` n'est pas masqué.
+En inspectant la page sur laquelle on tombe, on peut voir que le serveur utilise `Laravel` et que la ligne `APP_KEY` n'est pas masquée.
 
-En une petite recherche permet de trouver un site qui nous montre qu'il y a une faille à exploiter.
+Une petite recherche permet de trouver un site qui nous montre qu'il y a une faille à exploiter.
 
 https://www.rapid7.com/db/modules/exploit/unix/http/laravel_token_unserialize_exec/
 
@@ -124,7 +124,7 @@ exploit
 
 ### Upgrade le shell
 
-Quand on arrive on a un shell sale, afin de pouvoir l'upgrade utiliser python :
+Quand on arrive on a un shell sale, afin de pouvoir l'upgrade on peut utiliser python :
 ```
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
@@ -137,7 +137,7 @@ https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/
 cd ../../academy
 cat .env
 ```
-A ce moent on trouve le mot de passe d'un user.
+A ce moment on trouve le mot de passe d'un user.
 
 Trouvons le user :
 ```
@@ -148,7 +148,7 @@ ls /home
 
 On remarque un utilisateur que l'on a déjà croisé sur la page `admin.php`.
 
-On se connecte
+On se connecte :
 ```
 su nomdelutilisateur
 +
@@ -169,7 +169,7 @@ locate user.txt
 
 ### Analyse SELinux
 
-Recuperer l'uid du user actuel
+Recupérer l'uid du user actuel
 ``
 id
 ``
@@ -180,10 +180,10 @@ uid=1002(cry0l1t3) ....
 cd /var/log/audit
 cat * | grep 'comm="su"' | grep uid=1002
 ```
-Récupérer la `valeur de data` et la décrypté via un décodeur hexa to txt
+Récupérer la `valeur de data` et la décrypter via un décodeur hexa to txt
 ``
-Data coresspond au parramètre de la commande qui suit 'comm='; 
-cette valeur est encrypté en Hexadécimale
+Data corespond au paramètre de la commande qui suit 'comm='; 
+cette valeur est encryptée en Hexadécimal
 ``
 Le mot de passe de la session mrb3n est le résultat du décryptage
 
@@ -195,18 +195,18 @@ su mrb3n
 
 ###  Listing avaible sudo commands
 ``Sudo -l``
-On voie la ligne ci desosus qui signifie que l'on peut utiliser la commande **sudo composer**
+On voit la ligne ci dessous qui signifie que l'on peut utiliser la commande **sudo composer**
 >(ALL) /usb/bin/composer
 
 ### exploit composer
-Localiser et ce déplacer dans un fichier dans le quel nous avons tous les droits
+Localiser et se déplacer dans un répertoire dans lequel nous avons tous les droits
 ```
 ls -Ral | grep drwx | mrb3n 2>/dev/null
 cd X
 ```
 
 On peut voir que dans le dossier X nous avons les droit rwx
-Puis nous allons crée le script qui nous permet de faire une connection root en ssh via composer
+Puis nous allons créer le script qui nous permet de faire une connection root en ssh via composer
 ```
 TF=$(mktemp -d)
 vim $TF/composer.json
@@ -224,7 +224,7 @@ cat id_rsa.pub
 Copier tout le résultat a l'exception du {username}@{host} qui se trouve a la fin
 Remplacer {Clé_RSA} par votre clé rsa
 ```
-Puis executer le script, **sur la machine cible** 
+Puis exécuter le script, **sur la machine cible** 
 ``sudo composer --working-dir=$TF run-script SSH``
 
 ### Connection root
